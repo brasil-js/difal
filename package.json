@@ -1,0 +1,38 @@
+{
+  "name": "difal",
+  "version": "1.0.0",
+  "description": "Calculador de ICMS Diferença de Alíquota",
+  "main": "index.js",
+  "dependencies": {
+    "bigmoney.js": "0.0.1-a",
+    "icms": "^1.0.2"
+  },
+  "devDependencies": {
+    "nodeunit": "^0.9.1"
+  },
+  "scripts": {
+    "test": "nodeunit tests.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/brasil-js/difal.git"
+  },
+  "keywords": [
+    "icms",
+    "difal",
+    "nfe",
+    "nota",
+    "fiscal",
+    "eletronica",
+    "brasil",
+    "gammasoft",
+    "diferenca",
+    "aliquota"
+  ],
+  "author": "Renato Gama <renato@gammasoft.com.br>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/brasil-js/difal/issues"
+  },
+  "homepage": "https://github.com/brasil-js/difal"
+}
