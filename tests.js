@@ -109,6 +109,139 @@ module.exports = {
         test.done();
     },
 
+    'Retorna alguns dados passados como parametro': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2019, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.baseDeCalculo, 100);
+        test.equal(resultado.aliquotaDoFundoDeCombateAPobreza, 1);
+        test.done();
+    },
+
+    'Retorna a aliquota interestadual e a aliquota interna do destino': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2019, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.aliquotaInternaNoDestino, 18);
+        test.equal(resultado.aliquotaInterestadual, 12);
+        test.done();
+    },
+
+    'Retorna o percentual de partilha corretamente 1': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2016, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.partilha.origem, 60);
+        test.equal(resultado.partilha.destino, 40);
+        test.done();
+    },
+
+    'Retorna o percentual de partilha corretamente 2': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2017, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.partilha.origem, 40);
+        test.equal(resultado.partilha.destino, 60);
+        test.done();
+    },
+
+    'Retorna o percentual de partilha corretamente 3': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2018, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.partilha.origem, 20);
+        test.equal(resultado.partilha.destino, 80);
+        test.done();
+    },
+
+    'Retorna o percentual de partilha corretamente 4': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2019, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.partilha.origem, 0);
+        test.equal(resultado.partilha.destino, 100);
+        test.done();
+    },
+
+    'Retorna o percentual de partilha corretamente 5': function(test) {
+        var resultado = difal({
+            baseDeCalculo: 100,
+            consumidorFinal: true,
+            eContribuinte: false,
+            estadoDeOrigem: 'sp',
+            estadoDeDestino: 'rj',
+            aliquotaDoFundoDeCombateAPobreza: 0.01,
+            dataDeEmissao: new Date(2020, 0, 1),
+            eOptantePeloSimples: false,
+            produtoEmRegimeDeSt: false,
+            produtoImportado: false
+        });
+
+        test.equal(resultado.partilha.origem, 0);
+        test.equal(resultado.partilha.destino, 100);
+        test.done();
+    },
+
     'Retorna nulo caso destinatario não seja consumidor final': function(test) {
        var resultado = difal({
             baseDeCalculo: 100,

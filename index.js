@@ -25,26 +25,36 @@ function difal(parametros) {
         produtoEmRegimeDeSt = parametros.produtoEmRegimeDeSt,
         produtoImportado = parametros.produtoImportado;
 
+    // TODO: Descobrir a respeito da aliquota de 4% para produtos importados (se aplica a não contribuinte)
+
     if(!consumidorFinal || eContribuinte || estadoDeOrigem === estadoDeDestino) {
         return null;
     }
 
-    var aliquotaInterestadual = icms(estadoDeOrigem, estadoDeDestino) / 100,
-        aliquotaInternaDestino = icms(estadoDeDestino) / 100,
+    var aliquotaInterestadual = icms(estadoDeOrigem, estadoDeDestino),
+        aliquotaInternaNoDestino = icms(estadoDeDestino),
         partilha = obterAliquotaDePartilha(dataDeEmissao.getFullYear());
 
     if(!partilha) {
         return null;
     }
 
-    var icmsOrigem = baseDeCalculo.times(aliquotaInterestadual),
-        difal = baseDeCalculo.times(aliquotaInternaDestino).minus(icmsOrigem);
+    var icmsOrigem = baseDeCalculo.times(aliquotaInterestadual / 100),
+        difal = baseDeCalculo.times(aliquotaInternaNoDestino / 100).minus(icmsOrigem);
 
     return {
+        baseDeCalculo: baseDeCalculo,
         icmsOrigem: icmsOrigem.valueOf(),
         icmsDifalOrigem: difal.times(partilha.origem).valueOf(),
         icmsDifalDestino: difal.times(partilha.destino).valueOf(),
-        fundoDeCombateAPobreza: baseDeCalculo.times(aliquotaDoFundoDeCombateAPobreza).valueOf()
+        aliquotaDoFundoDeCombateAPobreza: aliquotaDoFundoDeCombateAPobreza * 100,
+        fundoDeCombateAPobreza: baseDeCalculo.times(aliquotaDoFundoDeCombateAPobreza).valueOf(),
+        aliquotaInternaNoDestino: aliquotaInternaNoDestino,
+        aliquotaInterestadual: aliquotaInterestadual,
+        partilha: {
+            origem: partilha.origem * 100,
+            destino: partilha.destino * 100
+        }
     };
 }
 
